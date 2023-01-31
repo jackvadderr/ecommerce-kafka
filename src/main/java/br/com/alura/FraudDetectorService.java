@@ -1,14 +1,8 @@
 package br.com.alura;
 
-import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.clients.consumer.KafkaConsumer;
-import org.apache.kafka.common.serialization.StringDeserializer;
 
-import java.time.Duration;
-import java.util.Collections;
-import java.util.Properties;
-import java.util.UUID;
+import java.util.Map;
 
 public class FraudDetectorService {
     public static void main(String[] args)throws Exception {
@@ -16,7 +10,8 @@ public class FraudDetectorService {
         try(var service = new KafkaService<>(FraudDetectorService.class.getSimpleName(),
                 "ECOMMERCE_NEW_ORDER",
                 fraudService::parse,
-                Order.class)) {
+                Order.class,
+                Map.of())) {
             service.run();
         }
     }

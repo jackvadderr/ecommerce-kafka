@@ -2,13 +2,16 @@ package br.com.alura;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 
+import java.util.Map;
+
 public class EmailService {
     public static void main(String[] args)throws Exception {
         var emailService = new EmailService();
         try(var service = new KafkaService(EmailService.class.getSimpleName(),
                 "ECOMMERCE_SEND_EMAIL",
                 emailService::parse,
-                String.class)) {
+                String.class,
+                Map.of())) {
             service.run();
         }
     }
