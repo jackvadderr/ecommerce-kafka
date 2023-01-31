@@ -13,14 +13,15 @@ import java.util.UUID;
 public class FraudDetectorService {
     public static void main(String[] args)throws Exception {
         var fraudService = new FraudDetectorService();
-        try(var service = new KafkaService(FraudDetectorService.class.getSimpleName(),
+        try(var service = new KafkaService<>(FraudDetectorService.class.getSimpleName(),
                 "ECOMMERCE_NEW_ORDER",
-                fraudService::parse)) {
+                fraudService::parse,
+                Order.class)) {
             service.run();
         }
     }
 
-    private void parse(ConsumerRecord<String, String> record) {
+    private void parse(ConsumerRecord<String, Order> record) {
         System.out.println("----------------------------------------");
         System.out.println("Processing new order, checking for fraud");
         System.out.println(record.key());
